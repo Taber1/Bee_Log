@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "120910824630",
+    "firebase_url": "https://bee-log-f9615.firebaseio.com",
+    "project_id": "bee-log-f9615",
+    "storage_bucket": "bee-log-f9615.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120910824630:android:824004bca84af43cbad217",
+        "android_client_info": {
+          "package_name": "com.example.bee_log"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120910824630-gevl27vco665kult003pmd6n53eqth9t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bee_log",
+            "certificate_hash": "b6f624e76667cc6993068eb13b60215728fe2718"
+          }
+        },
+        {
+          "client_id": "120910824630-jn6iqt52v97oj3ohr5mhej8pkdj4mnid.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeZOXuCHRgq_GZ_0lT98_pXX-0PLHIJ3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120910824630-jn6iqt52v97oj3ohr5mhej8pkdj4mnid.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
