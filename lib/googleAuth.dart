@@ -3,6 +3,7 @@ import 'package:bee_log/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'main.dart';
@@ -20,14 +21,18 @@ class GoogleAuth {
 
   Future<String> signInWithGoogle() async {
     try {
+      print("auth sy pehly");
       final GoogleSignInAccount googleSignInAccount =
           await googleSignIn.signIn();
+      print("yeh");
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount.authentication;
+      print("auth");
 
       final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken);
+      print("credentials");
 
       final User user = (await _auth.signInWithCredential(credential)).user;
 
@@ -47,10 +52,13 @@ class GoogleAuth {
         print(e);
       });
 
-      Navigator.push(navigatorKey.currentContext,
+      return Navigator.push(navigatorKey.currentContext,
           MaterialPageRoute(builder: (context) => HomePage()));
-    } catch (e) {
+    } on PlatformException catch (e) {
       return showAlertDialog(context, e);
+    } catch (e) {
+      showAlertDialog(context, e);
+      return e;
     }
   }
 

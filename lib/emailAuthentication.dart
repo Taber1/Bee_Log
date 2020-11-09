@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bee_log/main.dart';
-import 'package:bee_log/signup.dart';
 import 'package:bee_log/splash.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
