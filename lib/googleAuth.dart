@@ -21,18 +21,14 @@ class GoogleAuth {
 
   Future<String> signInWithGoogle() async {
     try {
-      print("auth sy pehly");
       final GoogleSignInAccount googleSignInAccount =
           await googleSignIn.signIn();
-      print("yeh");
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount.authentication;
-      print("auth");
 
       final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken);
-      print("credentials");
 
       final User user = (await _auth.signInWithCredential(credential)).user;
 
