@@ -18,7 +18,7 @@ class _LoginState extends State<Login> {
   var _passcont = TextEditingController();
   Auth _authenticator;
   GoogleAuth _gauth;
-  FbAuth _fbAuth;
+  FbAuth _fbauth;
   String _email;
   String _password;
   bool _obscureText = true;
@@ -33,7 +33,7 @@ class _LoginState extends State<Login> {
   void initState() {
     _authenticator = new Auth(context);
     _gauth = new GoogleAuth(context);
-    _fbAuth = new FbAuth(context);
+    _fbauth = new FbAuth(context);
   }
 
   @override
@@ -95,7 +95,9 @@ class _LoginState extends State<Login> {
               },
             ),
             FacebookSignInButton(
-              onPressed: () {},
+              onPressed: () {
+                _fbauth.signInFacebook();
+              },
             ),
             InkWell(
               onTap: () {

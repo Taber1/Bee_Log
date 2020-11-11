@@ -19,7 +19,7 @@ class FbAuth {
   String email;
   String public_profile;
 
-  Future<String> _signInFacebook() async {
+  Future<String> signInFacebook() async {
     try {
       FacebookLogin facebookLogin = FacebookLogin();
       final result = await facebookLogin.logIn(['email', 'public_profile']);
