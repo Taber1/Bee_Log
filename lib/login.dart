@@ -1,11 +1,10 @@
+import 'package:bee_log/fbAuth.dart';
 import 'package:bee_log/googleAuth.dart';
-import 'package:bee_log/home.dart';
 import 'package:bee_log/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'emailAuthentication.dart';
 
 class Login extends StatefulWidget {
@@ -19,6 +18,7 @@ class _LoginState extends State<Login> {
   var _passcont = TextEditingController();
   Auth _authenticator;
   GoogleAuth _gauth;
+  FbAuth _fbAuth;
   String _email;
   String _password;
   bool _obscureText = true;
@@ -33,6 +33,7 @@ class _LoginState extends State<Login> {
   void initState() {
     _authenticator = new Auth(context);
     _gauth = new GoogleAuth(context);
+    _fbAuth = new FbAuth(context);
   }
 
   @override
@@ -92,6 +93,9 @@ class _LoginState extends State<Login> {
               onPressed: () {
                 _gauth.signInWithGoogle();
               },
+            ),
+            FacebookSignInButton(
+              onPressed: () {},
             ),
             InkWell(
               onTap: () {

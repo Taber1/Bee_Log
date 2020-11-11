@@ -57,8 +57,4 @@ class GoogleAuth {
       return e;
     }
   }
-
-  void googleSignout() async {
-    await googleSignIn.signOut();
-  }
 }
