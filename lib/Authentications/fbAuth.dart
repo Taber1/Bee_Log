@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-
+import 'package:bee_log/Screens/AlertDialog.dart';
 import '../main.dart';
 
 class FbAuth {

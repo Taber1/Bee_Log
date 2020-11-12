@@ -5,12 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../Screens/home.dart';
-
-// abstract class BaseAuth {
-//   Future<String> signIn(String email, String password);
-//   Future<String> signUp(String email, String password);
-//   Future<void> signOut();
-// }
+import 'package:bee_log/Screens/AlertDialog.dart';
 
 class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -66,31 +61,4 @@ class Auth {
       return showAlertDialog(context, e);
     }
   }
-}
-
-showAlertDialog(BuildContext context, e) {
-  // set up the button
-  Widget okButton = FlatButton(
-    child: Text("OK"),
-    onPressed: () {
-      navigatorKey.currentState.pop(context);
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Error"),
-    content: Text(e.toString()),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }
