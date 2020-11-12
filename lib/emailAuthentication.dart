@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bee_log/main.dart';
-import 'package:bee_log/splash.dart';
+import 'package:bee_log/SplashForSignup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,8 +47,11 @@ class Auth {
               email: email, password: password))
           .user;
       if (user.emailVerified) {
-        Navigator.push(navigatorKey.currentContext,
-            MaterialPageRoute(builder: (context) => HomePage()));
+        Navigator.push(
+            navigatorKey.currentContext,
+            MaterialPageRoute(
+                builder: (context) =>
+                    HomePage("", email.toUpperCase(), email)));
         return user.uid;
       }
     } catch (e) {

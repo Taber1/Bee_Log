@@ -47,8 +47,10 @@ class FbAuth {
         print(e);
       });
 
-      return Navigator.push(navigatorKey.currentContext,
-          MaterialPageRoute(builder: (context) => HomePage()));
+      return Navigator.push(
+          navigatorKey.currentContext,
+          MaterialPageRoute(
+              builder: (context) => HomePage("", public_profile, email)));
     } on PlatformException catch (e) {
       showAlertDialog(context, e);
     } catch (e) {

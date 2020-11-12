@@ -48,8 +48,10 @@ class GoogleAuth {
         print(e);
       });
 
-      return Navigator.push(navigatorKey.currentContext,
-          MaterialPageRoute(builder: (context) => HomePage()));
+      return Navigator.push(
+          navigatorKey.currentContext,
+          MaterialPageRoute(
+              builder: (context) => HomePage(imageUrl, name, email)));
     } on PlatformException catch (e) {
       return showAlertDialog(context, e);
     } catch (e) {

@@ -36,8 +36,11 @@ class _SplashState extends State<Splash> {
                 .add({"email": widget.em, "password": widget.ps});
           });
           timer.cancel();
-          Navigator.push(navigatorKey.currentContext,
-              MaterialPageRoute(builder: (context) => HomePage()));
+          Navigator.push(
+              navigatorKey.currentContext,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomePage("", widget.em.toUpperCase(), widget.em)));
         }
       });
     });
