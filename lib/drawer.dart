@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'login.dart';
 
 class Draw_Wer extends StatelessWidget {
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  final fbLogin = FacebookLogin();
   String imgUrl;
   String name;
   String email;
@@ -20,6 +24,10 @@ class Draw_Wer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 CircleAvatar(
+                  backgroundImage: name.contains("@")
+                      ? NetworkImage(
+                          "https://www.flaticon.com/svg/static/icons/svg/1077/1077063.svg")
+                      : NetworkImage(imgUrl),
                   radius: 35,
                 ),
                 SizedBox(height: 10),
@@ -64,6 +72,8 @@ class Draw_Wer extends StatelessWidget {
             ),
             onTap: () async {
               await FirebaseAuth.instance.signOut();
+              await fbLogin.logOut();
+              await googleSignIn.signOut();
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Login()));
             },

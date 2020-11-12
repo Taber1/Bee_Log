@@ -52,7 +52,7 @@ class Auth {
             MaterialPageRoute(
                 builder: (context) =>
                     HomePage("", email.toUpperCase(), email)));
-        return user.uid;
+        // return user.uid;
       }
     } catch (e) {
       return showAlertDialog(context, e);
