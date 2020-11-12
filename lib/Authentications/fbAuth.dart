@@ -1,5 +1,5 @@
-import 'package:bee_log/emailAuthentication.dart';
-import 'package:bee_log/home.dart';
+import 'package:bee_log/Authentications/emailAuthentication.dart';
+import 'package:bee_log/Screens/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
-import 'main.dart';
+import '../main.dart';
 
 class FbAuth {
   final fbLogin = FacebookLogin();

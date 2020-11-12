@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:bee_log/main.dart';
-import 'package:bee_log/SplashForSignup.dart';
+import 'package:bee_log/Screens/SplashForSignup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'home.dart';
+import '../Screens/home.dart';
 
 // abstract class BaseAuth {
 //   Future<String> signIn(String email, String password);

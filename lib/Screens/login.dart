@@ -1,26 +1,26 @@
-import 'package:bee_log/home.dart';
-import 'package:bee_log/login.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bee_log/Authentications/fbAuth.dart';
+import 'package:bee_log/Authentications/googleAuth.dart';
+import 'package:bee_log/Screens/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../Authentications/emailAuthentication.dart';
 
-import 'emailAuthentication.dart';
-import 'main.dart';
-
-class SignUp extends StatefulWidget {
+class Login extends StatefulWidget {
   @override
-  _SignUpState createState() => _SignUpState();
+  _LoginState createState() => _LoginState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _LoginState extends State<Login> {
   final _auth = FirebaseAuth.instance;
-  final _firestore = FirebaseFirestore.instance;
+  var _emailcont = TextEditingController();
+  var _passcont = TextEditingController();
+  Auth _authenticator;
+  GoogleAuth _gauth;
+  FbAuth _fbauth;
   String _email;
   String _password;
-  Auth _authenticator;
-  var _passcont = TextEditingController();
-  var _emailcont = TextEditingController();
   bool _obscureText = true;
 
   void _toggle() {
@@ -32,13 +32,15 @@ class _SignUpState extends State<SignUp> {
   @override
   void initState() {
     _authenticator = new Auth(context);
+    _gauth = new GoogleAuth(context);
+    _fbauth = new FbAuth(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("SignUp"),
+        title: Text("Login"),
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -68,67 +70,52 @@ class _SignUpState extends State<SignUp> {
             ),
             RaisedButton(
               onPressed: () {
-                _authenticator.signUp(_email, _password);
+                _authenticator.signIn(_email, _password);
                 _passcont.clear();
                 _emailcont.clear();
               },
               // onPressed: () {
-              //   FirebaseAuth.instance
-              //       .createUserWithEmailAndPassword(
+              //   _auth
+              //       .signInWithEmailAndPassword(
               //           email: email, password: password)
-              //       .then((signedInUser) {
-              //     firestore.collection("users").add(
-              //         {"email": email, "password": password}).then((value) {
-              //       if (signedInUser != null) {
-              //         Navigator.push(context,
-              //             MaterialPageRoute(builder: (context) => HomePage()));
-              //         passcont.clear();
-              //         emailcont.clear();
-              //       }
-              //     }).catchError((e) {
-              //       print(e);
-              //     });
+              //       .then((values) {
+              //     Navigator.push(context,
+              //         MaterialPageRoute(builder: (context) => HomePage()));
+              //     _emailcont.clear();
+              //     _passcont.clear();
               //   }).catchError((e) {
               //     print(e);
               //   });
               // },
-              child: Text("SignUp"),
+              child: Text("SignIn"),
+            ),
+            GoogleSignInButton(
+              onPressed: () {
+                _gauth.signInWithGoogle();
+              },
+            ),
+            FacebookSignInButton(
+              onPressed: () {
+                _fbauth.signInFacebook();
+              },
             ),
             InkWell(
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Login()));
+                    context, MaterialPageRoute(builder: (context) => SignUp()));
               },
-              child: Text("Already Have an Account ?"),
+              child: Text("Create an Account"),
+            ),
+            InkWell(
+              onTap: () {
+                _authenticator.resetPassword(_email);
+                _emailcont.clear();
+              },
+              child: Text("Forget Password"),
             )
           ],
         ),
       ),
     );
   }
-}
-
-showAlertDialog(String e) {
-  // set up the button
-  Widget okButton = FlatButton(
-    child: Text("OK"),
-    onPressed: () {},
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Error"),
-    content: Text(e),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: navigatorKey.currentContext,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }

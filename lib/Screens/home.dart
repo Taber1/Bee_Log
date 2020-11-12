@@ -1,5 +1,5 @@
-import 'package:bee_log/drawer.dart';
-import 'package:bee_log/login.dart';
+import 'package:bee_log/Screens/drawer.dart';
+import 'package:bee_log/Screens/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
