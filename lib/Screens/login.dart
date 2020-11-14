@@ -87,7 +87,7 @@ class _LoginState extends State<Login> {
               //     print(e);
               //   });
               // },
-              child: Text("SignIn"),
+              child: Text("Sign In"),
             ),
             GoogleSignInButton(
               onPressed: () {
