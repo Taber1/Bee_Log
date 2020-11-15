@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'login.dart';
@@ -25,8 +26,7 @@ class Draw_Wer extends StatelessWidget {
               children: <Widget>[
                 CircleAvatar(
                   backgroundImage: name.contains("@")
-                      ? NetworkImage(
-                          "https://www.flaticon.com/svg/static/icons/svg/1077/1077063.svg")
+                      ? AssetImage('assets/images/user.png')
                       : NetworkImage(imgUrl),
                   radius: 35,
                 ),
