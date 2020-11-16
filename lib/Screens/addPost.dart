@@ -47,7 +47,14 @@ class _AddPostState extends State<AddPost> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(10),
+                    image: _image == null
+                        ? DecorationImage(
+                            image: NetworkImage(
+                                "https://images.pexels.com/photos/3890555/pexels-photo-3890555.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"),
+                            fit: BoxFit.cover)
+                        : DecorationImage(
+                            image: FileImage(_image), fit: BoxFit.cover)),
                 child: Center(
                   child: FlatButton(
                     onPressed: () {
@@ -55,7 +62,13 @@ class _AddPostState extends State<AddPost> {
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Icon(Icons.file_upload), Text("Upload Image")],
+                      children: [
+                        Icon(Icons.file_upload),
+                        Text(
+                          "Upload Image",
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
                     ),
                   ),
                 ),
