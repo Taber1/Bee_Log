@@ -1,7 +1,9 @@
-import 'dart:ffi';
-
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddPost extends StatefulWidget {
   @override
@@ -9,8 +11,27 @@ class AddPost extends StatefulWidget {
 }
 
 class _AddPostState extends State<AddPost> {
+  File _image;
   @override
   Widget build(BuildContext context) {
+    Future pickImage() async {
+      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        _image = image;
+        print('Image Path $_image');
+      });
+    }
+
+    Future uploadImage(BuildContext context) async {
+      String fileName = basename(_image.path);
+      Reference storageReference =
+          FirebaseStorage.instance.ref().child(fileName);
+      UploadTask uploadTask = storageReference.putFile(_image);
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() =>
+          Scaffold.of(context).showSnackBar(
+              SnackBar(content: Text("Uploaded Successfully !!!"))));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Add your Post"),
@@ -29,7 +50,9 @@ class _AddPostState extends State<AddPost> {
                     borderRadius: BorderRadius.circular(10)),
                 child: Center(
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      pickImage();
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [Icon(Icons.file_upload), Text("Upload Image")],

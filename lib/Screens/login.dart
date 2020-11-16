@@ -1,5 +1,6 @@
 import 'package:bee_log/Authentications/fbAuth.dart';
 import 'package:bee_log/Authentications/googleAuth.dart';
+import 'package:bee_log/Screens/home.dart';
 import 'package:bee_log/Screens/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,12 @@ class _LoginState extends State<Login> {
             ),
             RaisedButton(
               onPressed: () {
-                _authenticator.signIn(_email, _password);
+                // _authenticator.signIn(_email, _password);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HomePage("imgUrl", "name@", "email")));
                 _passcont.clear();
                 _emailcont.clear();
               },
