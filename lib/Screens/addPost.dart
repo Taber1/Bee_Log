@@ -50,8 +50,7 @@ class _AddPostState extends State<AddPost> {
                     borderRadius: BorderRadius.circular(10),
                     image: _image == null
                         ? DecorationImage(
-                            image: NetworkImage(
-                                "https://images.pexels.com/photos/3890555/pexels-photo-3890555.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"),
+                            image: AssetImage("assets/images/noimage.png"),
                             fit: BoxFit.cover)
                         : DecorationImage(
                             image: FileImage(_image), fit: BoxFit.cover)),
