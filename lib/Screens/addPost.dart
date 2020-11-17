@@ -30,6 +30,7 @@ class _AddPostState extends State<AddPost> {
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() =>
           Scaffold.of(context).showSnackBar(
               SnackBar(content: Text("Uploaded Successfully !!!"))));
+      print("Uploaded Successfully !!!");
     }
 
     return Scaffold(
@@ -51,21 +52,27 @@ class _AddPostState extends State<AddPost> {
                     image: _image == null
                         ? DecorationImage(
                             image: AssetImage("assets/images/noimage.png"),
-                            fit: BoxFit.cover)
+                            fit: BoxFit.cover,
+                            colorFilter: new ColorFilter.mode(
+                                Colors.black.withOpacity(0.2),
+                                BlendMode.dstATop))
                         : DecorationImage(
                             image: FileImage(_image), fit: BoxFit.cover)),
                 child: Center(
                   child: FlatButton(
                     onPressed: () {
-                      pickImage();
+                      if (_image == null) {
+                        pickImage();
+                      } else {
+                        uploadImage(context);
+                      }
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.file_upload),
                         Text(
-                          "Upload Image",
-                          style: TextStyle(color: Colors.white),
+                          _image == null ? "Pick Image" : "Upload Image",
                         )
                       ],
                     ),
