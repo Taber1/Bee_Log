@@ -39,6 +39,8 @@ dependencies:
   flutter_facebook_login: ^3.0.0
   image_picker: ^0.6.7+14
   path: ^1.7.0
+  intl: ^0.16.1
+  firebase_database: ^4.3.0
 
 dev_dependencies:
   flutter_test:

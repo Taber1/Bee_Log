@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'package:bee_log/Screens/home.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,6 +16,34 @@ class AddPost extends StatefulWidget {
 class _AddPostState extends State<AddPost> {
   File _image;
   bool val = true;
+  var titleCont = TextEditingController();
+  var desCont = TextEditingController();
+  String title;
+  String description;
+  String imageUrl;
+
+  void SaveToDb(url, context) {
+    var dbTimeKey = DateTime.now();
+    var formatDate = DateFormat('MMM d, yyyy');
+    var formatTime = DateFormat('EEEE, hh:mm aaa');
+
+    String date = formatDate.format(dbTimeKey);
+    String time = formatTime.format(dbTimeKey);
+
+    DatabaseReference reference = FirebaseDatabase.instance.reference();
+
+    var data = {
+      "image": url,
+      "title": title,
+      "description": description,
+      "date": date,
+      "time": time,
+    };
+
+    reference.child("Posts").push().set(data);
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     Future pickImage() async {
@@ -28,10 +59,11 @@ class _AddPostState extends State<AddPost> {
       Reference storageReference =
           FirebaseStorage.instance.ref().child("Post Images");
       var timeKey = DateTime.now();
-      UploadTask uploadTask = storageReference.putFile(_image);
+      UploadTask uploadTask =
+          storageReference.child(timeKey.toString() + ".jpg").putFile(_image);
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
           () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("Uploaded Successfully!!"),
+                content: Text("Uploaded Successfully !!!"),
               )));
       var imageUrl = await (await taskSnapshot).ref.getDownloadURL();
       imageUrl = imageUrl.toString();
@@ -94,6 +126,7 @@ class _AddPostState extends State<AddPost> {
                 height: 10,
               ),
               TextField(
+                controller: titleCont,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10)),
@@ -102,11 +135,17 @@ class _AddPostState extends State<AddPost> {
                       icon: Icon(FontAwesomeIcons.paperPlane),
                       onPressed: () {},
                     )),
+                onChanged: (val) {
+                  setState(() {
+                    title = val;
+                  });
+                },
               ),
               SizedBox(
                 height: 10,
               ),
               TextField(
+                controller: desCont,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 decoration: InputDecoration(
@@ -117,6 +156,14 @@ class _AddPostState extends State<AddPost> {
                       icon: Icon(FontAwesomeIcons.paperPlane),
                       onPressed: () {},
                     )),
+                onChanged: (val) {
+                  setState(() {
+                    description = val;
+                  });
+                },
+              ),
+              RaisedButton(
+                onPressed: () => SaveToDb(imageUrl, context),
               )
             ],
           ),
