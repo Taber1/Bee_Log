@@ -12,6 +12,7 @@ class AddPost extends StatefulWidget {
 
 class _AddPostState extends State<AddPost> {
   File _image;
+  bool val = true;
   @override
   Widget build(BuildContext context) {
     Future pickImage() async {
@@ -25,12 +26,15 @@ class _AddPostState extends State<AddPost> {
     Future uploadImage(BuildContext context) async {
       String fileName = basename(_image.path);
       Reference storageReference =
-          FirebaseStorage.instance.ref().child(fileName);
+          FirebaseStorage.instance.ref().child("Post Images");
+      var timeKey = DateTime.now();
       UploadTask uploadTask = storageReference.putFile(_image);
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
           () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("uploaded successfully!!"),
+                content: Text("Uploaded Successfully!!"),
               )));
+      var imageUrl = await (await taskSnapshot).ref.getDownloadURL();
+      imageUrl = imageUrl.toString();
       print("Uploaded Successfully !!!");
     }
 
@@ -60,22 +64,28 @@ class _AddPostState extends State<AddPost> {
                         : DecorationImage(
                             image: FileImage(_image), fit: BoxFit.cover)),
                 child: Center(
-                  child: FlatButton(
-                    onPressed: () {
-                      if (_image == null) {
-                        pickImage();
-                      } else {
-                        uploadImage(context);
-                      }
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.file_upload),
-                        Text(
-                          _image == null ? "Pick Image" : "Upload Image",
-                        )
-                      ],
+                  child: Visibility(
+                    visible: val,
+                    child: FlatButton(
+                      onPressed: () {
+                        if (_image == null) {
+                          pickImage();
+                        } else {
+                          uploadImage(context);
+                          setState(() {
+                            val = false;
+                          });
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.file_upload),
+                          Text(
+                            _image == null ? "Pick Image" : "Upload Image",
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
