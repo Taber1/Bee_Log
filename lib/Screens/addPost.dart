@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:bee_log/Screens/home.dart';
+import 'package:bee_log/Widgets/CustomProgressIndicator.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
@@ -172,26 +173,4 @@ class _AddPostState extends State<AddPost> {
       ),
     );
   }
-}
-
-showLoaderDialog(BuildContext context) {
-  AlertDialog alert = AlertDialog(
-    content: new Row(
-      children: [
-        CircularProgressIndicator(),
-        SizedBox(
-          width: 5,
-        ),
-        Container(
-            margin: EdgeInsets.only(left: 7), child: Text("Uploading...")),
-      ],
-    ),
-  );
-  showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }
