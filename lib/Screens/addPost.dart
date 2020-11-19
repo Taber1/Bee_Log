@@ -165,6 +165,7 @@ class _AddPostState extends State<AddPost> {
                 },
               ),
               RaisedButton(
+                child: Text("Post"),
                 onPressed: () => SaveToDb(imageUrl, context),
               )
             ],

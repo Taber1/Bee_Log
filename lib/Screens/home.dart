@@ -49,6 +49,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void setState(fn) {
+    // TODO: implement setState
+    super.setState(fn);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -90,7 +96,7 @@ Widget eachCard(date, description, image, time, title) {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(date),
+              Text(date + " " + time),
               SizedBox(
                 height: 2,
               ),
@@ -110,7 +116,7 @@ Widget eachCard(date, description, image, time, title) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title.toUpperCase(),
+                title,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(
