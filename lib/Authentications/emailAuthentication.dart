@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../Screens/home.dart';
-import 'package:bee_log/Screens/AlertDialog.dart';
+import 'package:bee_log/Widgets/AlertDialog.dart';
 
 class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

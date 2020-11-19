@@ -1,7 +1,7 @@
 import 'package:bee_log/Screens/addPost.dart';
 import 'package:bee_log/Screens/drawer.dart';
 import 'package:bee_log/Screens/login.dart';
-import 'package:bee_log/Screens/posts.dart';
+import 'package:bee_log/Models/posts.dart';
 import 'package:bee_log/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -63,16 +63,18 @@ class _HomePageState extends State<HomePage> {
               })
         ],
       ),
-      body: ListView.builder(
-          itemCount: listPost.length,
-          itemBuilder: (context, index) {
-            return eachCard(
-                listPost[index].date,
-                listPost[index].description,
-                listPost[index].image,
-                listPost[index].time,
-                listPost[index].title);
-          }),
+      body: listPost.length == 0
+          ? Center(child: Text("No Posts AvailableS"))
+          : ListView.builder(
+              itemCount: listPost.length,
+              itemBuilder: (context, index) {
+                return eachCard(
+                    listPost[index].date,
+                    listPost[index].description,
+                    listPost[index].image,
+                    listPost[index].time,
+                    listPost[index].title);
+              }),
       drawer: Draw_Wer(widget.imgUrl, widget.name, widget.email),
     );
   }
