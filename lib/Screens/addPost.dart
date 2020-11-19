@@ -61,12 +61,12 @@ class _AddPostState extends State<AddPost> {
       var timeKey = DateTime.now();
       UploadTask uploadTask =
           storageReference.child(timeKey.toString() + ".jpg").putFile(_image);
-      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
-          () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("Uploaded Successfully !!!"),
-              )));
-      var imageUrl = await (await taskSnapshot).ref.getDownloadURL();
-      imageUrl = imageUrl.toString();
+      TaskSnapshot taskSnapshot =
+          await uploadTask.whenComplete(() => Navigator.pop(context));
+      imageUrl = await (await taskSnapshot).ref.getDownloadURL();
+      setState(() {
+        imageUrl = imageUrl.toString();
+      });
       print("Uploaded Successfully !!!");
     }
 
@@ -106,6 +106,7 @@ class _AddPostState extends State<AddPost> {
                           uploadImage(context);
                           setState(() {
                             val = false;
+                            showLoaderDialog(context);
                           });
                         }
                       },
@@ -171,4 +172,26 @@ class _AddPostState extends State<AddPost> {
       ),
     );
   }
+}
+
+showLoaderDialog(BuildContext context) {
+  AlertDialog alert = AlertDialog(
+    content: new Row(
+      children: [
+        CircularProgressIndicator(),
+        SizedBox(
+          width: 5,
+        ),
+        Container(
+            margin: EdgeInsets.only(left: 7), child: Text("Uploading...")),
+      ],
+    ),
+  );
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
