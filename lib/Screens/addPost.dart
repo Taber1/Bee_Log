@@ -27,9 +27,10 @@ class _AddPostState extends State<AddPost> {
       Reference storageReference =
           FirebaseStorage.instance.ref().child(fileName);
       UploadTask uploadTask = storageReference.putFile(_image);
-      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() =>
-          Scaffold.of(context).showSnackBar(
-              SnackBar(content: Text("Uploaded Successfully !!!"))));
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(
+          () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("uploaded successfully!!"),
+              )));
       print("Uploaded Successfully !!!");
     }
 
