@@ -90,7 +90,7 @@ Widget eachCard(date, description, image, time, title) {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(time),
+              Text(date),
               SizedBox(
                 height: 2,
               ),

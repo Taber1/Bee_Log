@@ -25,8 +25,8 @@ class _AddPostState extends State<AddPost> {
 
   void SaveToDb(url, context) {
     var dbTimeKey = DateTime.now();
-    var formatDate = DateFormat('MMM d, yyyy');
-    var formatTime = DateFormat('EEEE, hh:mm aaa');
+    var formatDate = DateFormat('MMM d');
+    var formatTime = DateFormat('hh:mm aaa');
 
     String date = formatDate.format(dbTimeKey);
     String time = formatTime.format(dbTimeKey);
