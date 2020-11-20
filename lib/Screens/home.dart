@@ -1,3 +1,4 @@
+import 'package:bee_log/Models/favourites.dart';
 import 'package:bee_log/Screens/addPost.dart';
 import 'package:bee_log/Screens/drawer.dart';
 import 'package:bee_log/Screens/login.dart';
@@ -54,12 +55,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void setState(fn) {
-    // TODO: implement setState
-    super.setState(fn);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -94,83 +89,121 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-Widget eachCard(date, description, image, time, title) {
-  return Card(
-    child: Stack(children: [
-      Container(
-        padding: EdgeInsets.all(5),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(date + " " + time),
-                SizedBox(
-                  height: 2,
-                ),
-                Container(
-                  height: 120,
-                  width: 120,
-                  decoration: BoxDecoration(
-                      image: image != null
-                          ? DecorationImage(
-                              image: NetworkImage(image), fit: BoxFit.cover)
-                          : DecorationImage(
-                              image: AssetImage('assets/images/noimage.png'))),
-                )
-              ],
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  width: MediaQuery.of(navigatorKey.currentContext).size.width *
-                      0.65,
-                  child: Text(
-                    description,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.justify,
-                    maxLines: 7,
-                    softWrap: true,
+class eachCard extends StatefulWidget {
+  String date;
+  String description;
+  String image;
+  String time;
+  String title;
+  eachCard(this.date, this.description, this.image, this.time, this.title);
+  @override
+  _eachCardState createState() => _eachCardState();
+}
+
+class _eachCardState extends State<eachCard> {
+  bool isFav;
+  Icon setIcon = Icon(Icons.favorite_border);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isFav = false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Stack(children: [
+        Container(
+          padding: EdgeInsets.all(5),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(widget.date + " " + widget.time),
+                  SizedBox(
+                    height: 2,
                   ),
-                ),
-              ],
-            ),
-          ],
+                  Container(
+                    height: 120,
+                    width: 120,
+                    decoration: BoxDecoration(
+                        image: widget.image != null
+                            ? DecorationImage(
+                                image: NetworkImage(widget.image),
+                                fit: BoxFit.cover)
+                            : DecorationImage(
+                                image:
+                                    AssetImage('assets/images/noimage.png'))),
+                  )
+                ],
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    width:
+                        MediaQuery.of(navigatorKey.currentContext).size.width *
+                            0.65,
+                    child: Text(
+                      widget.description,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.justify,
+                      maxLines: 7,
+                      softWrap: true,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-      Positioned(
-        bottom: 5,
-        right: 5,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: () {},
-              child: Icon(Icons.comment),
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            InkWell(
-              onTap: () {},
-              child: Icon(Icons.favorite_border),
-            ),
-          ],
-        ),
-      )
-    ]),
-  );
+        Positioned(
+          bottom: 5,
+          right: 5,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {},
+                child: Icon(Icons.comment),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              InkWell(
+                  onTap: () {
+                    setState(() {
+                      isFav == false
+                          ? setIcon = Icon(
+                              Icons.favorite_border,
+                              size: 24,
+                            )
+                          : setIcon = Icon(
+                              Icons.favorite,
+                              size: 50,
+                              color: Colors.red,
+                            );
+                    });
+                  },
+                  child: setIcon),
+            ],
+          ),
+        )
+      ]),
+    );
+  }
 }
