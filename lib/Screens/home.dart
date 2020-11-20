@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
       body: RefreshIndicator(
         onRefresh: ListRefresh,
         child: listPost.length == 0
-            ? Center(child: Text("No Posts AvailableS"))
+            ? Center(child: Text("No Posts Available"))
             : ListView.builder(
                 itemCount: listPost.length,
                 itemBuilder: (context, index) {
@@ -112,8 +112,11 @@ Widget eachCard(date, description, image, time, title) {
                 height: 120,
                 width: 120,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(image), fit: BoxFit.cover)),
+                    image: image != null
+                        ? DecorationImage(
+                            image: NetworkImage(image), fit: BoxFit.cover)
+                        : DecorationImage(
+                            image: AssetImage('assets/images/noimage.png'))),
               )
             ],
           ),
