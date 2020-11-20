@@ -25,6 +25,11 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    ListRefresh();
+  }
+
+  Future<Null> ListRefresh() async {
+    await Future.delayed(Duration(seconds: 1));
     DatabaseReference postRef =
         FirebaseDatabase.instance.reference().child("Posts");
     postRef.once().then((DataSnapshot snapshot) {
@@ -69,18 +74,21 @@ class _HomePageState extends State<HomePage> {
               })
         ],
       ),
-      body: listPost.length == 0
-          ? Center(child: Text("No Posts AvailableS"))
-          : ListView.builder(
-              itemCount: listPost.length,
-              itemBuilder: (context, index) {
-                return eachCard(
-                    listPost[index].date,
-                    listPost[index].description,
-                    listPost[index].image,
-                    listPost[index].time,
-                    listPost[index].title);
-              }),
+      body: RefreshIndicator(
+        onRefresh: ListRefresh,
+        child: listPost.length == 0
+            ? Center(child: Text("No Posts AvailableS"))
+            : ListView.builder(
+                itemCount: listPost.length,
+                itemBuilder: (context, index) {
+                  return eachCard(
+                      listPost[index].date,
+                      listPost[index].description,
+                      listPost[index].image,
+                      listPost[index].time,
+                      listPost[index].title);
+                }),
+      ),
       drawer: Draw_Wer(widget.imgUrl, widget.name, widget.email),
     );
   }

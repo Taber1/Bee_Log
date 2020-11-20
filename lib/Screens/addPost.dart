@@ -165,8 +165,11 @@ class _AddPostState extends State<AddPost> {
                 },
               ),
               RaisedButton(
+                color: Colors.orange,
                 child: Text("Post"),
-                onPressed: () => SaveToDb(imageUrl, context),
+                onPressed: () {
+                  SaveToDb(imageUrl, context);
+                },
               )
             ],
           ),
