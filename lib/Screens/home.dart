@@ -96,58 +96,81 @@ class _HomePageState extends State<HomePage> {
 
 Widget eachCard(date, description, image, time, title) {
   return Card(
-    child: Container(
-      padding: EdgeInsets.all(5),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(date + " " + time),
-              SizedBox(
-                height: 2,
-              ),
-              Container(
-                height: 120,
-                width: 120,
-                decoration: BoxDecoration(
-                    image: image != null
-                        ? DecorationImage(
-                            image: NetworkImage(image), fit: BoxFit.cover)
-                        : DecorationImage(
-                            image: AssetImage('assets/images/noimage.png'))),
-              )
-            ],
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Container(
-                width:
-                    MediaQuery.of(navigatorKey.currentContext).size.width * 0.6,
-                child: Text(
-                  description,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.justify,
-                  maxLines: 7,
-                  softWrap: true,
+    child: Stack(children: [
+      Container(
+        padding: EdgeInsets.all(5),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(date + " " + time),
+                SizedBox(
+                  height: 2,
                 ),
-              )
-            ],
-          ),
-        ],
+                Container(
+                  height: 120,
+                  width: 120,
+                  decoration: BoxDecoration(
+                      image: image != null
+                          ? DecorationImage(
+                              image: NetworkImage(image), fit: BoxFit.cover)
+                          : DecorationImage(
+                              image: AssetImage('assets/images/noimage.png'))),
+                )
+              ],
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  width: MediaQuery.of(navigatorKey.currentContext).size.width *
+                      0.65,
+                  child: Text(
+                    description,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.justify,
+                    maxLines: 7,
+                    softWrap: true,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
+      Positioned(
+        bottom: 5,
+        right: 5,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {},
+              child: Icon(Icons.comment),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            InkWell(
+              onTap: () {},
+              child: Icon(Icons.favorite_border),
+            ),
+          ],
+        ),
+      )
+    ]),
   );
 }
