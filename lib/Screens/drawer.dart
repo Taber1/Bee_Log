@@ -1,3 +1,4 @@
+import 'package:bee_log/Screens/myFavourites.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -55,6 +56,24 @@ class Draw_Wer extends StatelessWidget {
             onTap: () {
               // Navigator.push(context,
               //     MaterialPageRoute(builder: (context) => myProfiles()));
+            },
+          ),
+          Divider(
+            color: Theme.of(context).primaryColor,
+            thickness: 0.3,
+          ),
+          ListTile(
+            title: Text(
+              'My Favourites',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),
+            trailing: Icon(
+              Icons.arrow_right,
+              size: 30,
+            ),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => myFavourites()));
             },
           ),
           Divider(

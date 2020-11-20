@@ -1,13 +1,10 @@
-import 'package:bee_log/Models/favourites.dart';
 import 'package:bee_log/Screens/addPost.dart';
 import 'package:bee_log/Screens/drawer.dart';
-import 'package:bee_log/Screens/login.dart';
 import 'package:bee_log/Models/posts.dart';
 import 'package:bee_log/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 class HomePage extends StatefulWidget {
   String name;
@@ -103,6 +100,15 @@ class eachCard extends StatefulWidget {
 class _eachCardState extends State<eachCard> {
   bool isFav;
   Icon setIcon = Icon(Icons.favorite_border);
+  void favToggle() {
+    setState(() {
+      isFav = !isFav;
+      isFav == false
+          ? setIcon = Icon(Icons.favorite_border)
+          : setIcon = Icon(Icons.favorite, color: Colors.red);
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -186,18 +192,7 @@ class _eachCardState extends State<eachCard> {
               ),
               InkWell(
                   onTap: () {
-                    setState(() {
-                      isFav == false
-                          ? setIcon = Icon(
-                              Icons.favorite_border,
-                              size: 24,
-                            )
-                          : setIcon = Icon(
-                              Icons.favorite,
-                              size: 50,
-                              color: Colors.red,
-                            );
-                    });
+                    favToggle();
                   },
                   child: setIcon),
             ],
