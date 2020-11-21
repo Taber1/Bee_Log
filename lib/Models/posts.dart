@@ -4,8 +4,8 @@ class Posts {
   String image;
   String time;
   String title;
-  String postId;
+  String id;
 
-  Posts(this.date, this.description, this.image, this.time, this.title,
-      this.postId);
+  Posts(
+      this.date, this.description, this.image, this.time, this.title, this.id);
 }

@@ -36,13 +36,14 @@ class _HomePageState extends State<HomePage> {
       listPost.clear();
 
       for (var individualKey in KEYS) {
+        postRef.child(individualKey).update({'key': individualKey});
         Posts posts = Posts(
             Data[individualKey]["date"],
             Data[individualKey]["description"],
             Data[individualKey]["image"],
             Data[individualKey]["time"],
             Data[individualKey]["title"],
-            Data[individualKey]['postId']);
+            Data[individualKey]["key"]);
 
         listPost.add(posts);
       }
@@ -80,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                       listPost[index].image,
                       listPost[index].time,
                       listPost[index].title,
-                      listPost[index].postId);
+                      listPost[index].id);
                 }),
       ),
       drawer: Draw_Wer(widget.imgUrl, widget.name, widget.email),
@@ -111,7 +112,13 @@ class _eachCardState extends State<eachCard> {
           ? setIcon = Icon(Icons.favorite_border)
           : setIcon = Icon(Icons.favorite, color: Colors.red);
     });
-    return isFav;
+    DatabaseReference ref = FirebaseDatabase.instance
+        .reference()
+        .child("Posts")
+        .child(widget.id)
+        .child("Fav");
+
+    ref.update({"state": isFav});
   }
 
   @override
@@ -119,6 +126,35 @@ class _eachCardState extends State<eachCard> {
     // TODO: implement initState
     super.initState();
     isFav = false;
+  }
+
+  DeletePost(BuildContext context, String key) {
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        setState(() {
+          FirebaseDatabase.instance
+              .reference()
+              .child("Posts")
+              .child(key)
+              .remove();
+          Navigator.pop(context);
+        });
+      },
+    );
+    Widget noButton = FlatButton(
+      child: Text("No"),
+      onPressed: () {
+        setState(() {
+          Navigator.pop(context);
+        });
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text("Delete Post"),
+      content: Text("Do you want to delete this post?"),
+      actions: [okButton, noButton],
+    );
   }
 
   @override
@@ -189,13 +225,7 @@ class _eachCardState extends State<eachCard> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                onTap: () {
-                  FirebaseDatabase.instance
-                      .reference()
-                      .child("Posts")
-                      .child('postId')
-                      .remove();
-                },
+                onTap: DeletePost(context, widget.id),
                 child: Icon(Icons.delete),
               ),
               SizedBox(
@@ -204,13 +234,6 @@ class _eachCardState extends State<eachCard> {
               InkWell(
                   onTap: () {
                     favToggle();
-                    DatabaseReference ref = FirebaseDatabase.instance
-                        .reference()
-                        .child("Posts")
-                        .child(widget.id)
-                        .child("Fav")
-                        .child("state");
-                    ref.set(favToggle());
                   },
                   child: setIcon),
             ],

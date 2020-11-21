@@ -39,9 +39,11 @@ class _AddPostState extends State<AddPost> {
       "description": description,
       "date": date,
       "time": time,
+      "key": "null"
     };
 
     reference.child("Posts").push().set(data);
+
     Navigator.pop(context);
   }
 
