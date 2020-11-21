@@ -128,9 +128,9 @@ class _eachCardState extends State<eachCard> {
     isFav = false;
   }
 
-  DeletePost(BuildContext context, String key) {
+  deletePost(BuildContext context, String key) {
     Widget okButton = FlatButton(
-      child: Text("OK"),
+      child: Text("Yes"),
       onPressed: () {
         setState(() {
           FirebaseDatabase.instance
@@ -139,6 +139,9 @@ class _eachCardState extends State<eachCard> {
               .child(key)
               .remove();
           Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Post Deleted"),
+          ));
         });
       },
     );
@@ -155,6 +158,11 @@ class _eachCardState extends State<eachCard> {
       content: Text("Do you want to delete this post?"),
       actions: [okButton, noButton],
     );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
   }
 
   @override
@@ -225,7 +233,7 @@ class _eachCardState extends State<eachCard> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                onTap: DeletePost(context, widget.id),
+                onTap: () => deletePost(context, widget.id),
                 child: Icon(Icons.delete),
               ),
               SizedBox(
