@@ -41,7 +41,8 @@ class _HomePageState extends State<HomePage> {
             Data[individualKey]["description"],
             Data[individualKey]["image"],
             Data[individualKey]["time"],
-            Data[individualKey]["title"]);
+            Data[individualKey]["title"],
+            Data[individualKey]['postId']);
 
         listPost.add(posts);
       }
@@ -78,7 +79,8 @@ class _HomePageState extends State<HomePage> {
                       listPost[index].description,
                       listPost[index].image,
                       listPost[index].time,
-                      listPost[index].title);
+                      listPost[index].title,
+                      listPost[index].postId);
                 }),
       ),
       drawer: Draw_Wer(widget.imgUrl, widget.name, widget.email),
@@ -92,7 +94,9 @@ class eachCard extends StatefulWidget {
   String image;
   String time;
   String title;
-  eachCard(this.date, this.description, this.image, this.time, this.title);
+  String id;
+  eachCard(
+      this.date, this.description, this.image, this.time, this.title, this.id);
   @override
   _eachCardState createState() => _eachCardState();
 }
@@ -100,13 +104,14 @@ class eachCard extends StatefulWidget {
 class _eachCardState extends State<eachCard> {
   bool isFav;
   Icon setIcon = Icon(Icons.favorite_border);
-  void favToggle() {
+  bool favToggle() {
     setState(() {
       isFav = !isFav;
       isFav == false
           ? setIcon = Icon(Icons.favorite_border)
           : setIcon = Icon(Icons.favorite, color: Colors.red);
     });
+    return isFav;
   }
 
   @override
@@ -184,8 +189,14 @@ class _eachCardState extends State<eachCard> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                onTap: () {},
-                child: Icon(Icons.comment),
+                onTap: () {
+                  FirebaseDatabase.instance
+                      .reference()
+                      .child("Posts")
+                      .child('postId')
+                      .remove();
+                },
+                child: Icon(Icons.delete),
               ),
               SizedBox(
                 width: 5,
@@ -193,6 +204,13 @@ class _eachCardState extends State<eachCard> {
               InkWell(
                   onTap: () {
                     favToggle();
+                    DatabaseReference ref = FirebaseDatabase.instance
+                        .reference()
+                        .child("Posts")
+                        .child(widget.id)
+                        .child("Fav")
+                        .child("state");
+                    ref.set(favToggle());
                   },
                   child: setIcon),
             ],
