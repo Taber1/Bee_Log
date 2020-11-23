@@ -23,31 +23,48 @@ class _AddPostState extends State<AddPost> {
   String description;
   String imageUrl;
 
-  void SaveToDb(url, context) {
-    var dbTimeKey = DateTime.now();
-    var formatDate = DateFormat('MMM d');
-    var formatTime = DateFormat('hh:mm aaa');
+  Future SaveToDb(context) async {
+    // Upload task
+    showLoaderDialog(context);
+    Reference storageReference =
+        FirebaseStorage.instance.ref().child("Post Images");
+    var timeKey = DateTime.now();
+    UploadTask uploadTask =
+        storageReference.child(timeKey.toString() + ".jpg").putFile(_image);
+    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {
+      imageUrl = uploadTask.snapshot.ref.getDownloadURL().toString();
+      // Database Code
+      var dbTimeKey = DateTime.now();
+      var formatDate = DateFormat('MMM d');
+      var formatTime = DateFormat('hh:mm aaa');
 
-    String date = formatDate.format(dbTimeKey);
-    String time = formatTime.format(dbTimeKey);
+      String date = formatDate.format(dbTimeKey);
+      String time = formatTime.format(dbTimeKey);
 
-    DatabaseReference reference = FirebaseDatabase.instance.reference();
+      DatabaseReference reference = FirebaseDatabase.instance.reference();
 
-    var data = {
-      "image": url,
-      "title": title,
-      "description": description,
-      "date": date,
-      "time": time,
-      "key": "null"
-    };
+      var data = {
+        "image": imageUrl,
+        "title": title,
+        "description": description,
+        "date": date,
+        "time": time,
+        "key": "null"
+      };
 
-    reference.child("Posts").push().set(data);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Post uploaded successfully"),
-    ));
+      reference.child("Posts").push().set(data);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Post uploaded successfully"),
+      ));
 
-    Navigator.pop(context);
+      Navigator.pop(context);
+    });
+    // imageUrl = await (await taskSnapshot).ref.getDownloadURL();
+    // setState(() {
+    //   imageUrl = imageUrl.toString();
+    // });
+    // print("Uploaded Successfully !!!");
+// database upload
   }
 
   @override
@@ -61,19 +78,19 @@ class _AddPostState extends State<AddPost> {
     }
 
     Future uploadImage(BuildContext context) async {
-      String fileName = basename(_image.path);
-      Reference storageReference =
-          FirebaseStorage.instance.ref().child("Post Images");
-      var timeKey = DateTime.now();
-      UploadTask uploadTask =
-          storageReference.child(timeKey.toString() + ".jpg").putFile(_image);
-      TaskSnapshot taskSnapshot =
-          await uploadTask.whenComplete(() => Navigator.pop(context));
-      imageUrl = await (await taskSnapshot).ref.getDownloadURL();
-      setState(() {
-        imageUrl = imageUrl.toString();
-      });
-      print("Uploaded Successfully !!!");
+      // String fileName = basename(_image.path);
+      // Reference storageReference =
+      //     FirebaseStorage.instance.ref().child("Post Images");
+      // var timeKey = DateTime.now();
+      // UploadTask uploadTask =
+      //     storageReference.child(timeKey.toString() + ".jpg").putFile(_image);
+      // TaskSnapshot taskSnapshot =
+      //     await uploadTask.whenComplete(() => Navigator.pop(context));
+      // imageUrl = await (await taskSnapshot).ref.getDownloadURL();
+      // setState(() {
+      //   imageUrl = imageUrl.toString();
+      // });
+      // print("Uploaded Successfully !!!");
     }
 
     return Scaffold(
@@ -113,11 +130,11 @@ class _AddPostState extends State<AddPost> {
                         if (_image == null) {
                           pickImage();
                         } else {
-                          uploadImage(context);
-                          setState(() {
-                            val = false;
-                            showLoaderDialog(context);
-                          });
+                          // uploadImage(context);
+                          // setState(() {
+                          //   val = false;
+                          //   showLoaderDialog(context);
+                          // });
                         }
                       },
                       child: Row(
@@ -125,7 +142,7 @@ class _AddPostState extends State<AddPost> {
                         children: [
                           Icon(Icons.file_upload),
                           Text(
-                            _image == null ? "Pick Image" : "Upload Image",
+                            _image == null ? "Pick Image" : "",
                             style: TextStyle(fontSize: 17),
                           )
                         ],
@@ -178,7 +195,7 @@ class _AddPostState extends State<AddPost> {
                 color: Colors.orange,
                 child: Text("Post"),
                 onPressed: () {
-                  SaveToDb(imageUrl, context);
+                  SaveToDb(context);
                 },
               )
             ],
