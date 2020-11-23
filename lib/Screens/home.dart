@@ -17,13 +17,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Posts> listPost = [];
-  FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     ListRefresh();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   Future<Null> ListRefresh() async {
@@ -108,7 +112,7 @@ class eachCard extends StatefulWidget {
 }
 
 class _eachCardState extends State<eachCard> {
-  bool isFav;
+  bool isFav = false;
   Icon setIcon = Icon(Icons.favorite_border);
   bool favToggle() {
     setState(() {
@@ -130,7 +134,12 @@ class _eachCardState extends State<eachCard> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    isFav = false;
+    // isFav = false;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   deletePost(BuildContext context, String key) {
