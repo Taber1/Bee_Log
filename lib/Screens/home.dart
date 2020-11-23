@@ -71,7 +71,12 @@ class _HomePageState extends State<HomePage> {
       body: RefreshIndicator(
         onRefresh: ListRefresh,
         child: listPost.length == 0
-            ? Center(child: Text("No Posts Available"))
+            ? ListView(
+                children: [
+                  Center(child: Text("No Data Available")),
+                  Center(child: Text("Try reloading"))
+                ],
+              )
             : ListView.builder(
                 itemCount: listPost.length,
                 itemBuilder: (context, index) {
@@ -182,7 +187,7 @@ class _eachCardState extends State<eachCard> {
                     height: 2,
                   ),
                   Container(
-                    height: 120,
+                    height: 130,
                     width: 120,
                     decoration: BoxDecoration(
                         image: widget.image != null

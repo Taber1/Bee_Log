@@ -23,6 +23,14 @@ class _AddPostState extends State<AddPost> {
   String description;
   String imageUrl;
 
+  Future pickImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+      print('Image Path $_image');
+    });
+  }
+
   Future SaveToDb(context) async {
     // Upload task
     showLoaderDialog(context);
@@ -70,30 +78,6 @@ class _AddPostState extends State<AddPost> {
 
   @override
   Widget build(BuildContext context) {
-    Future pickImage() async {
-      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-      setState(() {
-        _image = image;
-        print('Image Path $_image');
-      });
-    }
-
-    Future uploadImage(BuildContext context) async {
-      // String fileName = basename(_image.path);
-      // Reference storageReference =
-      //     FirebaseStorage.instance.ref().child("Post Images");
-      // var timeKey = DateTime.now();
-      // UploadTask uploadTask =
-      //     storageReference.child(timeKey.toString() + ".jpg").putFile(_image);
-      // TaskSnapshot taskSnapshot =
-      //     await uploadTask.whenComplete(() => Navigator.pop(context));
-      // imageUrl = await (await taskSnapshot).ref.getDownloadURL();
-      // setState(() {
-      //   imageUrl = imageUrl.toString();
-      // });
-      // print("Uploaded Successfully !!!");
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Add your Post"),
@@ -120,22 +104,26 @@ class _AddPostState extends State<AddPost> {
                           image: FileImage(_image),
                           fit: BoxFit.cover,
                           colorFilter: new ColorFilter.mode(
-                              Colors.black.withOpacity(0.2),
+                              Colors.black.withOpacity(0.5),
                               BlendMode.dstATop)),
                 ),
-                child: Center(
+                child: Container(
                   child: Visibility(
                     visible: val,
                     child: FlatButton(
                       onPressed: () {
                         if (_image == null) {
                           pickImage();
+                          setState(() {
+                            val = false;
+                          });
                         } else {
                           // uploadImage(context);
                           // setState(() {
                           //   val = false;
                           //   showLoaderDialog(context);
                           // });
+
                         }
                       },
                       child: Row(
@@ -143,7 +131,7 @@ class _AddPostState extends State<AddPost> {
                         children: [
                           Icon(Icons.file_upload),
                           Text(
-                            _image == null ? "Pick Image" : "",
+                            "Pick Image",
                             style: TextStyle(fontSize: 17),
                           )
                         ],
