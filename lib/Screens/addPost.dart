@@ -43,6 +43,9 @@ class _AddPostState extends State<AddPost> {
     };
 
     reference.child("Posts").push().set(data);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Post uploaded successfully"),
+    ));
 
     Navigator.pop(context);
   }
@@ -87,17 +90,21 @@ class _AddPostState extends State<AddPost> {
                 height: MediaQuery.of(context).size.height * 0.35,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(10),
-                    image: _image == null
-                        ? DecorationImage(
-                            image: AssetImage("assets/images/noimage.png"),
-                            fit: BoxFit.cover,
-                            colorFilter: new ColorFilter.mode(
-                                Colors.black.withOpacity(0.2),
-                                BlendMode.dstATop))
-                        : DecorationImage(
-                            image: FileImage(_image), fit: BoxFit.cover)),
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(10),
+                  image: _image == null
+                      ? DecorationImage(
+                          image: AssetImage("assets/images/noimage.png"),
+                          fit: BoxFit.cover,
+                          colorFilter: new ColorFilter.mode(
+                              Colors.black.withOpacity(0.2), BlendMode.dstATop))
+                      : DecorationImage(
+                          image: FileImage(_image),
+                          fit: BoxFit.cover,
+                          colorFilter: new ColorFilter.mode(
+                              Colors.black.withOpacity(0.2),
+                              BlendMode.dstATop)),
+                ),
                 child: Center(
                   child: Visibility(
                     visible: val,
@@ -119,6 +126,7 @@ class _AddPostState extends State<AddPost> {
                           Icon(Icons.file_upload),
                           Text(
                             _image == null ? "Pick Image" : "Upload Image",
+                            style: TextStyle(fontSize: 17),
                           )
                         ],
                       ),
