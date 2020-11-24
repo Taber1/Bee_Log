@@ -23,8 +23,6 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     ListRefresh();
-    ListRefresh();
-    ListRefresh();
   }
 
   @override
@@ -53,10 +51,9 @@ class _HomePageState extends State<HomePage> {
             Data[individualKey]["key"]);
 
         listPost.add(posts);
-      }
-      setState(() {
         print('Length:${listPost.length}');
-      });
+      }
+      setState(() {});
     });
   }
 
@@ -87,6 +84,7 @@ class _HomePageState extends State<HomePage> {
             : ListView.builder(
                 itemCount: listPost.length,
                 itemBuilder: (context, index) {
+                  // ignore: missing_required_param
                   return eachCard(
                       listPost[index].date,
                       listPost[index].description,
@@ -117,7 +115,9 @@ class eachCard extends StatefulWidget {
 class _eachCardState extends State<eachCard> {
   bool isFav = false;
   Icon setIcon = Icon(Icons.favorite_border);
-  bool favToggle(id) {
+  bool favToggle(String id) {
+    print("ID kia hai bhaeee" + id);
+    print("WIDGET ID" + widget.id);
     id != null || id != 'null'
         ? setState(() {
             isFav = !isFav;
@@ -127,20 +127,9 @@ class _eachCardState extends State<eachCard> {
             DatabaseReference ref = FirebaseDatabase.instance
                 .reference()
                 .child("Posts")
-                .child(id)
-                .child("Fav");
+                .child(widget.id);
 
-            ref.update({"state": isFav});
-            // FirebaseDatabase.instance
-            //     .reference()
-            //     .child("Posts")
-            //     .child('null')
-            //     .remove();
-            // FirebaseDatabase.instance
-            //     .reference()
-            //     .child("Posts")
-            //     .child(null)
-            //     .remove();
+            ref.child("Fav").update({"state": isFav});
           })
         : FirebaseDatabase.instance
             .reference()
@@ -172,7 +161,7 @@ class _eachCardState extends State<eachCard> {
               .child("Posts")
               .child(key)
               .remove();
-          Navigator.pop(context);
+          Navigator.pop(context, true);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Post Deleted"),
           ));
@@ -188,7 +177,7 @@ class _eachCardState extends State<eachCard> {
       },
     );
     AlertDialog alert = AlertDialog(
-      title: Text("Delete Post"),
+      title: Text("Delete Post" + key),
       content: Text("Do you want to delete this post?"),
       actions: [okButton, noButton],
     );
@@ -273,11 +262,7 @@ class _eachCardState extends State<eachCard> {
               SizedBox(
                 width: 5,
               ),
-              InkWell(
-                  onTap: () {
-                    favToggle(widget.id);
-                  },
-                  child: setIcon),
+              InkWell(onTap: () => favToggle(widget.id), child: setIcon),
             ],
           ),
         )

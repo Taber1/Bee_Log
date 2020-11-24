@@ -68,7 +68,9 @@ class _AddPostState extends State<AddPost> {
     ));
 
     Navigator.pop(context);
-    Navigator.pop(context);
+    Navigator.pop(context, () {
+      setState(() {});
+    });
     // imageUrl = await (await taskSnapshot).ref.getDownloadURL();
     // setState(() {
     //   imageUrl = imageUrl.toString();
