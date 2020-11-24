@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
 
       for (var individualKey in KEYS) {
         postRef.child(individualKey).update({'key': individualKey});
+        postRef.child(individualKey).child("Fav").update({'state': false});
         Posts posts = Posts(
             Data[individualKey]["date"],
             Data[individualKey]["description"],
@@ -121,13 +122,15 @@ class _eachCardState extends State<eachCard> {
           ? setIcon = Icon(Icons.favorite_border)
           : setIcon = Icon(Icons.favorite, color: Colors.red);
     });
-    DatabaseReference ref = FirebaseDatabase.instance
-        .reference()
-        .child("Posts")
-        .child(widget.id)
-        .child("Fav");
+    if (widget.id != null || widget.id != 'null') {
+      DatabaseReference ref = FirebaseDatabase.instance
+          .reference()
+          .child("Posts")
+          .child(widget.id)
+          .child("Fav");
 
-    ref.update({"state": isFav});
+      ref.update({"state": isFav});
+    }
   }
 
   @override

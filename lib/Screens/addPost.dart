@@ -41,6 +41,7 @@ class _AddPostState extends State<AddPost> {
         storageReference.child(timeKey.toString() + ".jpg").putFile(_image);
     TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {
       imageUrl = uploadTask.snapshot.ref.getDownloadURL().toString();
+      print("imageUrl=" + imageUrl);
       // Database Code
       var dbTimeKey = DateTime.now();
       var formatDate = DateFormat('MMM d');
