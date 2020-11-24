@@ -39,36 +39,36 @@ class _AddPostState extends State<AddPost> {
     var timeKey = DateTime.now();
     UploadTask uploadTask =
         storageReference.child(timeKey.toString() + ".jpg").putFile(_image);
-    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {
-      imageUrl = uploadTask.snapshot.ref.getDownloadURL().toString();
-      print("imageUrl=" + imageUrl);
-      // Database Code
-      var dbTimeKey = DateTime.now();
-      var formatDate = DateFormat('MMM d');
-      var formatTime = DateFormat('hh:mm aaa');
+    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+    imageUrl = (await taskSnapshot.ref.getDownloadURL());
+    imageUrl = imageUrl.toString();
+    print("imageUrl=" + imageUrl);
+    // Database Code
+    var dbTimeKey = DateTime.now();
+    var formatDate = DateFormat('MMM d');
+    var formatTime = DateFormat('hh:mm aaa');
 
-      String date = formatDate.format(dbTimeKey);
-      String time = formatTime.format(dbTimeKey);
+    String date = formatDate.format(dbTimeKey);
+    String time = formatTime.format(dbTimeKey);
 
-      DatabaseReference reference = FirebaseDatabase.instance.reference();
+    DatabaseReference reference = FirebaseDatabase.instance.reference();
 
-      var data = {
-        "image": imageUrl,
-        "title": title,
-        "description": description,
-        "date": date,
-        "time": time,
-        "key": "null"
-      };
+    var data = {
+      "image": imageUrl,
+      "title": title,
+      "description": description,
+      "date": date,
+      "time": time,
+      "key": "null"
+    };
 
-      reference.child("Posts").push().set(data);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Post uploaded successfully"),
-      ));
+    reference.child("Posts").push().set(data);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Post uploaded successfully"),
+    ));
 
-      Navigator.pop(context);
-      Navigator.pop(context);
-    });
+    Navigator.pop(context);
+    Navigator.pop(context);
     // imageUrl = await (await taskSnapshot).ref.getDownloadURL();
     // setState(() {
     //   imageUrl = imageUrl.toString();
