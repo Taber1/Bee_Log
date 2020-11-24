@@ -104,9 +104,7 @@ class _AddPostState extends State<AddPost> {
                       : DecorationImage(
                           image: FileImage(_image),
                           fit: BoxFit.cover,
-                          colorFilter: new ColorFilter.mode(
-                              Colors.black.withOpacity(0.5),
-                              BlendMode.dstATop)),
+                        ),
                 ),
                 child: Container(
                   child: Visibility(

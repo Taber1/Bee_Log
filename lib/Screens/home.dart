@@ -23,6 +23,8 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     ListRefresh();
+    ListRefresh();
+    ListRefresh();
   }
 
   @override
@@ -115,22 +117,37 @@ class eachCard extends StatefulWidget {
 class _eachCardState extends State<eachCard> {
   bool isFav = false;
   Icon setIcon = Icon(Icons.favorite_border);
-  bool favToggle() {
-    setState(() {
-      isFav = !isFav;
-      isFav == false
-          ? setIcon = Icon(Icons.favorite_border)
-          : setIcon = Icon(Icons.favorite, color: Colors.red);
-    });
-    if (widget.id != null || widget.id != 'null') {
-      DatabaseReference ref = FirebaseDatabase.instance
-          .reference()
-          .child("Posts")
-          .child(widget.id)
-          .child("Fav");
+  bool favToggle(id) {
+    id != null || id != 'null'
+        ? setState(() {
+            isFav = !isFav;
+            isFav == false
+                ? setIcon = Icon(Icons.favorite_border)
+                : setIcon = Icon(Icons.favorite, color: Colors.red);
+            DatabaseReference ref = FirebaseDatabase.instance
+                .reference()
+                .child("Posts")
+                .child(id)
+                .child("Fav");
 
-      ref.update({"state": isFav});
-    }
+            ref.update({"state": isFav});
+            // FirebaseDatabase.instance
+            //     .reference()
+            //     .child("Posts")
+            //     .child('null')
+            //     .remove();
+            // FirebaseDatabase.instance
+            //     .reference()
+            //     .child("Posts")
+            //     .child(null)
+            //     .remove();
+          })
+        : FirebaseDatabase.instance
+            .reference()
+            .child("Posts")
+            .child('null')
+            .remove();
+    FirebaseDatabase.instance.reference().child("Posts").child(null).remove();
   }
 
   @override
@@ -258,7 +275,7 @@ class _eachCardState extends State<eachCard> {
               ),
               InkWell(
                   onTap: () {
-                    favToggle();
+                    favToggle(widget.id);
                   },
                   child: setIcon),
             ],
