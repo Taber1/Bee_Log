@@ -1,3 +1,4 @@
+import 'package:bee_log/Screens/PostScreen.dart';
 import 'package:bee_log/Screens/addPost.dart';
 import 'package:bee_log/Screens/drawer.dart';
 import 'package:bee_log/Models/posts.dart';
@@ -190,83 +191,92 @@ class _eachCardState extends State<eachCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Stack(children: [
-        Container(
-          padding: EdgeInsets.all(5),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.date + " " + widget.time),
-                  SizedBox(
-                    height: 2,
-                  ),
-                  Container(
-                    height: 130,
-                    width: 120,
-                    decoration: BoxDecoration(
-                        image: widget.image != null
-                            ? DecorationImage(
-                                image: NetworkImage(widget.image),
-                                fit: BoxFit.cover)
-                            : DecorationImage(
-                                image:
-                                    AssetImage('assets/images/noimage.png'))),
-                  )
-                ],
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.title,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    width:
-                        MediaQuery.of(navigatorKey.currentContext).size.width *
-                            0.65,
-                    child: Text(
-                      widget.description,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.justify,
-                      maxLines: 7,
-                      softWrap: true,
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  PostScreen(widget.image, widget.title, widget.description))),
+      child: Card(
+        child: Stack(children: [
+          Container(
+            padding: EdgeInsets.all(5),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.date + " " + widget.time),
+                    SizedBox(
+                      height: 2,
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    Container(
+                      height: 130,
+                      width: 120,
+                      decoration: BoxDecoration(
+                          image: widget.image != null
+                              ? DecorationImage(
+                                  image: NetworkImage(widget.image),
+                                  fit: BoxFit.cover)
+                              : DecorationImage(
+                                  image:
+                                      AssetImage('assets/images/noimage.png'))),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.title,
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      width: MediaQuery.of(navigatorKey.currentContext)
+                              .size
+                              .width *
+                          0.65,
+                      child: Text(
+                        widget.description,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.justify,
+                        maxLines: 7,
+                        softWrap: true,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        Positioned(
-          bottom: 5,
-          right: 5,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () => deletePost(context, widget.id),
-                child: Icon(Icons.delete),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              InkWell(onTap: () => favToggle(widget.id), child: setIcon),
-            ],
-          ),
-        )
-      ]),
+          Positioned(
+            bottom: 5,
+            right: 5,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () => deletePost(context, widget.id),
+                  child: Icon(Icons.delete),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                InkWell(onTap: () => favToggle(widget.id), child: setIcon),
+              ],
+            ),
+          )
+        ]),
+      ),
     );
   }
 }
