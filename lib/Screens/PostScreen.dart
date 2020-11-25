@@ -4,7 +4,9 @@ class PostScreen extends StatefulWidget {
   String imageUrl;
   String title;
   String description;
-  PostScreen(this.imageUrl, this.title, this.description);
+  String date;
+  String time;
+  PostScreen(this.imageUrl, this.title, this.description, this.date, this.time);
 
   @override
   _PostScreenState createState() => _PostScreenState();
@@ -25,14 +27,40 @@ class _PostScreenState extends State<PostScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
+                  //child: Image.network(widget.imageUrl),
+                  height: MediaQuery.of(context).size.height * 0.33,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
                       image: DecorationImage(
-                          image: NetworkImage(widget.imageUrl))),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                          image: NetworkImage(widget.imageUrl),
+                          fit: BoxFit.cover),
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      widget.title,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(widget.date + " " + widget.time)
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  margin: EdgeInsets.all(10),
+                  child: Text(
+                    widget.description,
+                    textAlign: TextAlign.justify,
                   ),
                 )
               ],

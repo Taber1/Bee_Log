@@ -195,8 +195,8 @@ class _eachCardState extends State<eachCard> {
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-                  PostScreen(widget.image, widget.title, widget.description))),
+              builder: (context) => PostScreen(widget.image, widget.title,
+                  widget.description, widget.date, widget.time))),
       child: Card(
         child: Stack(children: [
           Container(
