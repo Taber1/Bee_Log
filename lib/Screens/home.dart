@@ -52,9 +52,10 @@ class _HomePageState extends State<HomePage> {
             Data[individualKey]["key"]);
 
         listPost.add(posts);
-        print('Length:${listPost.length}');
       }
-      setState(() {});
+      setState(() {
+        print('Length:${listPost.length}');
+      });
     });
   }
 
