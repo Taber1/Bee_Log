@@ -138,7 +138,8 @@ class _eachCardState extends State<eachCard> {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text('Please refresh again'),
+                  title: Text('Refresh the page'),
+                  content: Text("Scroll down to refresh"),
                   actions: [
                     FlatButton(
                       onPressed: () => Navigator.pop(context),
