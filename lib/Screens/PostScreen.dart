@@ -18,6 +18,7 @@ class _PostScreenState extends State<PostScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Post"),
+          centerTitle: true,
         ),
         body: SingleChildScrollView(
           child: Padding(
