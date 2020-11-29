@@ -55,6 +55,9 @@ class _HomePageState extends State<HomePage> {
 
         listPost.add(posts);
       }
+      setState(() {
+        print('length:${listPost.length}');
+      });
     });
   }
 
@@ -75,18 +78,18 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: ListRefresh,
-        child: listPost.length == 0
-            ? ListView(
-                children: [
-                  Center(child: Text("No Data Available")),
-                  Center(child: Text("Try reloading"))
-                ],
-              )
-            : FutureBuilder(
-                future: ListRefresh(),
-                builder: (context, snapshot) {
-                  return ListView.builder(
+          onRefresh: ListRefresh,
+          child: FutureBuilder(
+            future: ListRefresh(),
+            builder: (context, snapshot) {
+              return listPost.length == 0
+                  ? ListView(
+                      children: [
+                        Center(child: Text("No Data Available")),
+                        Center(child: Text("Try reloading"))
+                      ],
+                    )
+                  : ListView.builder(
                       itemCount: listPost.length,
                       itemBuilder: (context, index) {
                         // ignore: missing_required_param
@@ -99,9 +102,8 @@ class _HomePageState extends State<HomePage> {
                             listPost[index].id,
                             listPost[index].fav);
                       });
-                },
-              ),
-      ),
+            },
+          )),
       drawer: Draw_Wer(widget.imgUrl, widget.name, widget.email),
     );
   }
