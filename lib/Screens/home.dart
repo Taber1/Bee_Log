@@ -118,7 +118,7 @@ class _eachCardState extends State<eachCard> {
   bool isFav = false;
   Icon setIcon = Icon(Icons.favorite_border);
   bool favToggle(String id) {
-    print("ID kia hai bhaeee" + id);
+    print("ID:" + id);
     print("WIDGET ID" + widget.id);
     id != null || id != 'null'
         ? setState(() {
