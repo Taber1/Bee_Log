@@ -117,10 +117,10 @@ class eachCard extends StatefulWidget {
 class _eachCardState extends State<eachCard> {
   bool isFav = false;
   Icon setIcon = Icon(Icons.favorite_border);
-  bool favToggle(String id) {
+  Future<bool> favToggle(String id) async {
     print("ID:" + id);
-    print("WIDGET ID" + widget.id);
-    id != null || id != 'null'
+    print("WIDGET ID: " + widget.id);
+    id != 'null'
         ? setState(() {
             isFav = !isFav;
             isFav == false
@@ -133,12 +133,32 @@ class _eachCardState extends State<eachCard> {
 
             ref.child("Fav").update({"state": isFav});
           })
-        : FirebaseDatabase.instance
-            .reference()
-            .child("Posts")
-            .child('null')
-            .remove();
-    FirebaseDatabase.instance.reference().child("Posts").child(null).remove();
+        : setState(() {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('Please refresh again'),
+                  actions: [
+                    FlatButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text("OK"),
+                    )
+                  ],
+                );
+              },
+            );
+            FirebaseDatabase.instance
+                .reference()
+                .child("Posts")
+                .child('null')
+                .remove();
+            FirebaseDatabase.instance
+                .reference()
+                .child("Posts")
+                .child(null)
+                .remove();
+          });
   }
 
   @override
