@@ -21,14 +21,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    ListRefresh();
+    setState(() {
+      ListRefresh();
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
+    ListRefresh();
   }
 
   Future<Null> ListRefresh() async {
@@ -53,9 +55,6 @@ class _HomePageState extends State<HomePage> {
 
         listPost.add(posts);
       }
-      setState(() {
-        print('Length:${listPost.length}');
-      });
     });
   }
 
@@ -70,7 +69,8 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.add),
               onPressed: () {
                 Navigator.push(navigatorKey.currentContext,
-                    MaterialPageRoute(builder: (context) => AddPost()));
+                        MaterialPageRoute(builder: (context) => AddPost()))
+                    .then((_) => ListRefresh());
               })
         ],
       ),
@@ -83,19 +83,24 @@ class _HomePageState extends State<HomePage> {
                   Center(child: Text("Try reloading"))
                 ],
               )
-            : ListView.builder(
-                itemCount: listPost.length,
-                itemBuilder: (context, index) {
-                  // ignore: missing_required_param
-                  return eachCard(
-                      listPost[index].date,
-                      listPost[index].description,
-                      listPost[index].image,
-                      listPost[index].time,
-                      listPost[index].title,
-                      listPost[index].id,
-                      listPost[index].fav);
-                }),
+            : FutureBuilder(
+                future: ListRefresh(),
+                builder: (context, snapshot) {
+                  return ListView.builder(
+                      itemCount: listPost.length,
+                      itemBuilder: (context, index) {
+                        // ignore: missing_required_param
+                        return eachCard(
+                            listPost[index].date,
+                            listPost[index].description,
+                            listPost[index].image,
+                            listPost[index].time,
+                            listPost[index].title,
+                            listPost[index].id,
+                            listPost[index].fav);
+                      });
+                },
+              ),
       ),
       drawer: Draw_Wer(widget.imgUrl, widget.name, widget.email),
     );
@@ -259,7 +264,9 @@ class _eachCardState extends State<eachCard> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 InkWell(
-                  onTap: () => deletePost(context, widget.id),
+                  onTap: () => deletePost(context, widget.id).then((value) {
+                    setState(() {});
+                  }),
                   child: Icon(Icons.delete),
                 ),
                 SizedBox(
