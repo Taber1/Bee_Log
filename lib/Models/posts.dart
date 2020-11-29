@@ -5,7 +5,8 @@ class Posts {
   String time;
   String title;
   String id;
+  bool fav;
 
-  Posts(
-      this.date, this.description, this.image, this.time, this.title, this.id);
+  Posts(this.date, this.description, this.image, this.time, this.title, this.id,
+      this.fav);
 }

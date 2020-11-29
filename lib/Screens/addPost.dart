@@ -59,10 +59,19 @@ class _AddPostState extends State<AddPost> {
       "description": description,
       "date": date,
       "time": time,
-      "key": "null"
+      "Fav": false,
     };
 
     reference.child("Posts").push().set(data);
+    reference.child("Posts").once().then((DataSnapshot snapshot) {
+      var KEYS = snapshot.value.keys;
+      for (var individualKey in KEYS) {
+        reference
+            .child("Posts")
+            .child(individualKey)
+            .update({'key': individualKey});
+      }
+    });
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("Post uploaded successfully"),
     ));

@@ -41,15 +41,15 @@ class _HomePageState extends State<HomePage> {
       listPost.clear();
 
       for (var individualKey in KEYS) {
-        postRef.child(individualKey).update({'key': individualKey});
-        postRef.child(individualKey).child("Fav").update({'state': false});
+        // postRef.child(individualKey).update({'key': individualKey});
         Posts posts = Posts(
             Data[individualKey]["date"],
             Data[individualKey]["description"],
             Data[individualKey]["image"],
             Data[individualKey]["time"],
             Data[individualKey]["title"],
-            Data[individualKey]["key"]);
+            Data[individualKey]["key"],
+            Data[individualKey]['Fav']);
 
         listPost.add(posts);
       }
@@ -93,7 +93,8 @@ class _HomePageState extends State<HomePage> {
                       listPost[index].image,
                       listPost[index].time,
                       listPost[index].title,
-                      listPost[index].id);
+                      listPost[index].id,
+                      listPost[index].fav);
                 }),
       ),
       drawer: Draw_Wer(widget.imgUrl, widget.name, widget.email),
@@ -108,65 +109,36 @@ class eachCard extends StatefulWidget {
   String time;
   String title;
   String id;
-  eachCard(
-      this.date, this.description, this.image, this.time, this.title, this.id);
+  bool fav;
+  eachCard(this.date, this.description, this.image, this.time, this.title,
+      this.id, this.fav);
   @override
   _eachCardState createState() => _eachCardState();
 }
 
 class _eachCardState extends State<eachCard> {
-  bool isFav = false;
-  Icon setIcon = Icon(Icons.favorite_border);
+  bool isFav;
+  Icon setIcon;
   Future<bool> favToggle(String id) async {
-    print("ID:" + id);
-    print("WIDGET ID: " + widget.id);
-    id != 'null'
-        ? setState(() {
-            isFav = !isFav;
-            isFav == false
-                ? setIcon = Icon(Icons.favorite_border)
-                : setIcon = Icon(Icons.favorite, color: Colors.red);
-            DatabaseReference ref = FirebaseDatabase.instance
-                .reference()
-                .child("Posts")
-                .child(widget.id);
+    setState(() {
+      isFav = !isFav;
+      isFav == false
+          ? setIcon = Icon(Icons.favorite_border)
+          : setIcon = Icon(Icons.favorite, color: Colors.red);
+      DatabaseReference ref =
+          FirebaseDatabase.instance.reference().child("Posts").child(widget.id);
 
-            ref.child("Fav").update({"state": isFav});
-          })
-        : setState(() {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text('Refresh the page'),
-                  content: Text("Scroll down to refresh"),
-                  actions: [
-                    FlatButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text("OK"),
-                    )
-                  ],
-                );
-              },
-            );
-            FirebaseDatabase.instance
-                .reference()
-                .child("Posts")
-                .child('null')
-                .remove();
-            FirebaseDatabase.instance
-                .reference()
-                .child("Posts")
-                .child(null)
-                .remove();
-          });
+      ref.update({"Fav": isFav});
+    });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
+    isFav = widget.fav;
+    isFav == false
+        ? setIcon = Icon(Icons.favorite_border)
+        : setIcon = Icon(Icons.favorite, color: Colors.red);
     super.initState();
-    // isFav = false;
   }
 
   @override
@@ -200,7 +172,7 @@ class _eachCardState extends State<eachCard> {
       },
     );
     AlertDialog alert = AlertDialog(
-      title: Text("Delete Post" + key),
+      title: Text("Delete Post"),
       content: Text("Do you want to delete this post?"),
       actions: [okButton, noButton],
     );

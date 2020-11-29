@@ -41,6 +41,7 @@ dependencies:
   path: ^1.7.0
   intl: ^0.16.1
   firebase_database: ^4.3.0
+  shared_preferences: ^0.5.12+4
 
 dev_dependencies:
   flutter_test:
