@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
         listPost.add(posts);
       }
       setState(() {
-        print('length:${listPost.length}');
+        // print('length:${listPost.length}');
       });
     });
   }
