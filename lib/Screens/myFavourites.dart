@@ -65,8 +65,7 @@ class _myFavouritesState extends State<myFavourites> {
           future: favListRefresh(),
           builder: (context, snapshot) {
             return StaggeredGridView.countBuilder(
-              staggeredTileBuilder: (int index) =>
-                  StaggeredTile.count(2, index.isEven ? 2 : 3),
+              staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
               mainAxisSpacing: 4.0,
               crossAxisSpacing: 4.0,
               crossAxisCount: 4,
@@ -115,11 +114,33 @@ class _eachFavPostState extends State<eachFavPost> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image.network(
-              widget.image,
-              fit: BoxFit.fitHeight,
+            Container(
+              height: 180,
+              child: Image.network(
+                widget.image,
+                fit: BoxFit.fill,
+              ),
             ),
-            Text(widget.title)
+            SizedBox(height: 5),
+            Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    widget.title,
+                    softWrap: true,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Icon(Icons.favorite),
+                )
+              ],
+            )
           ],
         ),
       ),
