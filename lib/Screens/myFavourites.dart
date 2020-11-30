@@ -1,6 +1,7 @@
 import 'package:bee_log/Models/posts.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:path/path.dart';
 
 import 'PostScreen.dart';
@@ -63,13 +64,14 @@ class _myFavouritesState extends State<myFavourites> {
         body: FutureBuilder(
           future: favListRefresh(),
           builder: (context, snapshot) {
-            return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: MediaQuery.of(context).size.width /
-                      (MediaQuery.of(context).size.height / 1.6)),
+            return StaggeredGridView.countBuilder(
+              staggeredTileBuilder: (int index) =>
+                  StaggeredTile.count(2, index.isEven ? 2 : 3),
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+              crossAxisCount: 4,
               itemCount: favPost.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (BuildContext context, int index) {
                 return eachFavPost(
                     favPost[index].date,
                     favPost[index].description,
@@ -103,22 +105,22 @@ class eachFavPost extends StatefulWidget {
 class _eachFavPostState extends State<eachFavPost> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-        onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PostScreen(widget.image, widget.title,
-                    widget.description, widget.date, widget.time))),
-        child: Card(
-          child: Column(
-            children: [
-              Image.network(
-                widget.image,
-              )
-            ],
-          ),
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PostScreen(widget.image, widget.title,
+                  widget.description, widget.date, widget.time))),
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Image.network(
+              widget.image,
+              fit: BoxFit.fitHeight,
+            ),
+            Text(widget.title)
+          ],
         ),
       ),
     );
