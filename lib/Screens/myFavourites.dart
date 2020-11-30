@@ -102,6 +102,35 @@ class eachFavPost extends StatefulWidget {
 }
 
 class _eachFavPostState extends State<eachFavPost> {
+  bool isFav;
+  Icon setIcon;
+  Future<bool> favToggle(String id) async {
+    setState(() {
+      isFav = !isFav;
+      isFav == false
+          ? setIcon = Icon(Icons.favorite_border)
+          : setIcon = Icon(Icons.favorite, color: Colors.red);
+      DatabaseReference ref =
+          FirebaseDatabase.instance.reference().child("Posts").child(widget.id);
+
+      ref.update({"Fav": isFav});
+    });
+  }
+
+  @override
+  void initState() {
+    isFav = widget.fav;
+    isFav == false
+        ? setIcon = Icon(Icons.favorite_border)
+        : setIcon = Icon(Icons.favorite, color: Colors.red);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -136,8 +165,8 @@ class _eachFavPostState extends State<eachFavPost> {
                   width: 5,
                 ),
                 InkWell(
-                  onTap: () {},
-                  child: Icon(Icons.favorite),
+                  onTap: () => favToggle(widget.id),
+                  child: setIcon,
                 )
               ],
             )
