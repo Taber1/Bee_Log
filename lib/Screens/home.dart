@@ -77,12 +77,7 @@ class _HomePageState extends State<HomePage> {
             future: ListRefresh(),
             builder: (context, snapshot) {
               return listPost.length == 0
-                  ? ListView(
-                      children: [
-                        Center(child: Text("No Data Available")),
-                        Center(child: Text("Try reloading"))
-                      ],
-                    )
+                  ? Center(child: CircularProgressIndicator())
                   : ListView.builder(
                       itemCount: listPost.length,
                       itemBuilder: (context, index) {
