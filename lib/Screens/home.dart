@@ -153,6 +153,15 @@ class _eachCardState extends State<eachCard> {
     super.dispose();
   }
 
+  iconSet(bool fav) {
+    setState(() {
+      fav == false
+          ? setIcon = Icon(Icons.favorite_border)
+          : setIcon = Icon(Icons.favorite, color: Colors.red);
+    });
+    return setIcon;
+  }
+
   deletePost(BuildContext context, String key) {
     Widget okButton = FlatButton(
       child: Text("Yes"),

@@ -60,6 +60,12 @@ class _myFavouritesState extends State<myFavourites> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Favourites"),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context, true),
+            icon: Icon(Icons.home),
+          ),
         ),
         body: FutureBuilder(
           future: favListRefresh(),
