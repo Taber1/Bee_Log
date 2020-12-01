@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class PostScreen extends StatefulWidget {
@@ -6,13 +7,49 @@ class PostScreen extends StatefulWidget {
   String description;
   String date;
   String time;
-  PostScreen(this.imageUrl, this.title, this.description, this.date, this.time);
+  String id;
+  bool fav;
+  PostScreen(this.imageUrl, this.title, this.description, this.date, this.time,
+      this.id, this.fav);
 
   @override
   _PostScreenState createState() => _PostScreenState();
 }
 
 class _PostScreenState extends State<PostScreen> {
+  bool isFav;
+  Icon setIcon;
+  Future<bool> favToggle(String id) async {
+    setState(() {
+      isFav = !isFav;
+      isFav == false
+          ? setIcon = Icon(Icons.favorite_border)
+          : setIcon = Icon(Icons.favorite, color: Colors.red);
+      DatabaseReference ref =
+          FirebaseDatabase.instance.reference().child("Posts").child(widget.id);
+      ref.update({"Fav": isFav});
+    });
+  }
+
+  iconSet(bool fav) {
+    fav == false
+        ? setIcon = Icon(Icons.favorite_border)
+        : setIcon = Icon(Icons.favorite, color: Colors.red);
+    DatabaseReference postRef =
+        FirebaseDatabase.instance.reference().child("Posts");
+    postRef.once().then((DataSnapshot snapshot) {
+      var KEYS = snapshot.value.keys;
+      var Data = snapshot.value;
+
+      for (var individualKey in KEYS) {
+        (Data[individualKey]["Fav"] == true)
+            ? setIcon = Icon(Icons.favorite_border)
+            : setIcon = Icon(Icons.favorite, color: Colors.red);
+      }
+    });
+    return setIcon;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +99,13 @@ class _PostScreenState extends State<PostScreen> {
                   child: Text(
                     widget.description,
                     textAlign: TextAlign.justify,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.favorite),
                   ),
                 )
               ],
