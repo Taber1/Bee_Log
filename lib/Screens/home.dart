@@ -27,12 +27,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    ListRefresh();
-  }
-
   Future<Null> ListRefresh() async {
     await Future.delayed(Duration(seconds: 1));
     DatabaseReference postRef =
@@ -148,12 +142,6 @@ class _eachCardState extends State<eachCard> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    cardFuture();
-    super.dispose();
-  }
-
   Future<Null> cardFuture() async {
     await Future.delayed(Duration(seconds: 1));
     DatabaseReference postRef =
@@ -164,23 +152,22 @@ class _eachCardState extends State<eachCard> {
   }
 
   iconSet(bool fav) {
-    setState(() {
-      fav == false
-          ? setIcon = Icon(Icons.favorite_border)
-          : setIcon = Icon(Icons.favorite, color: Colors.red);
-      DatabaseReference postRef =
-          FirebaseDatabase.instance.reference().child("Posts");
-      postRef.once().then((DataSnapshot snapshot) {
-        var KEYS = snapshot.value.keys;
-        var Data = snapshot.value;
+    fav == false
+        ? setIcon = Icon(Icons.favorite_border)
+        : setIcon = Icon(Icons.favorite, color: Colors.red);
+    DatabaseReference postRef =
+        FirebaseDatabase.instance.reference().child("Posts");
+    postRef.once().then((DataSnapshot snapshot) {
+      var KEYS = snapshot.value.keys;
+      var Data = snapshot.value;
 
-        for (var individualKey in KEYS) {
-          (Data[individualKey]["Fav"] == true)
-              ? setIcon = Icon(Icons.favorite_border)
-              : setIcon = Icon(Icons.favorite, color: Colors.red);
-        }
-      });
+      for (var individualKey in KEYS) {
+        (Data[individualKey]["Fav"] == true)
+            ? setIcon = Icon(Icons.favorite_border)
+            : setIcon = Icon(Icons.favorite, color: Colors.red);
+      }
     });
+    return setIcon;
   }
 
   deletePost(BuildContext context, String key) {
@@ -306,7 +293,9 @@ class _eachCardState extends State<eachCard> {
                   SizedBox(
                     width: 5,
                   ),
-                  InkWell(onTap: () => favToggle(widget.id), child: setIcon),
+                  InkWell(
+                      onTap: () => favToggle(widget.id),
+                      child: iconSet(widget.fav)),
                 ],
               ),
             )

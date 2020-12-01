@@ -20,12 +20,6 @@ class _myFavouritesState extends State<myFavourites> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
   Future<Null> favListRefresh() async {
     await Future.delayed(Duration(seconds: 1));
     DatabaseReference postRef =
@@ -64,7 +58,7 @@ class _myFavouritesState extends State<myFavourites> {
           automaticallyImplyLeading: false,
           leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context, true);
               Navigator.pop(context, true);
             },
             icon: Icon(Icons.home),
@@ -73,23 +67,30 @@ class _myFavouritesState extends State<myFavourites> {
         body: FutureBuilder(
           future: favListRefresh(),
           builder: (context, snapshot) {
-            return StaggeredGridView.countBuilder(
-              staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
-              mainAxisSpacing: 4.0,
-              crossAxisSpacing: 4.0,
-              crossAxisCount: 4,
-              itemCount: favPost.length,
-              itemBuilder: (BuildContext context, int index) {
-                return eachFavPost(
-                    favPost[index].date,
-                    favPost[index].description,
-                    favPost[index].image,
-                    favPost[index].time,
-                    favPost[index].title,
-                    favPost[index].id,
-                    favPost[index].fav);
-              },
-            );
+            return favPost.length == 0
+                ? ListView(
+                    children: [
+                      Center(child: Text("No Data Available")),
+                      Center(child: Text("Try reloading"))
+                    ],
+                  )
+                : StaggeredGridView.countBuilder(
+                    staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
+                    mainAxisSpacing: 4.0,
+                    crossAxisSpacing: 4.0,
+                    crossAxisCount: 4,
+                    itemCount: favPost.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return eachFavPost(
+                          favPost[index].date,
+                          favPost[index].description,
+                          favPost[index].image,
+                          favPost[index].time,
+                          favPost[index].title,
+                          favPost[index].id,
+                          favPost[index].fav);
+                    },
+                  );
           },
         ));
   }
@@ -126,6 +127,34 @@ class _eachFavPostState extends State<eachFavPost> {
     });
   }
 
+  Future<Null> cardFuture() async {
+    await Future.delayed(Duration(seconds: 1));
+    DatabaseReference postRef =
+        FirebaseDatabase.instance.reference().child("Posts");
+    setState(() {
+      return postRef.child(widget.id).child("Fav");
+    });
+  }
+
+  iconSet(bool fav) {
+    fav == false
+        ? setIcon = Icon(Icons.favorite_border)
+        : setIcon = Icon(Icons.favorite, color: Colors.red);
+    DatabaseReference postRef =
+        FirebaseDatabase.instance.reference().child("Posts");
+    postRef.once().then((DataSnapshot snapshot) {
+      var KEYS = snapshot.value.keys;
+      var Data = snapshot.value;
+
+      for (var individualKey in KEYS) {
+        (Data[individualKey]["Fav"] == true)
+            ? setIcon = Icon(Icons.favorite_border)
+            : setIcon = Icon(Icons.favorite, color: Colors.red);
+      }
+    });
+    return setIcon;
+  }
+
   @override
   void initState() {
     isFav = widget.fav;
@@ -136,50 +165,49 @@ class _eachFavPostState extends State<eachFavPost> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PostScreen(widget.image, widget.title,
-                  widget.description, widget.date, widget.time))),
-      child: Card(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              height: 180,
-              child: Image.network(
-                widget.image,
-                fit: BoxFit.fill,
+    return FutureBuilder(
+      future: cardFuture(),
+      builder: (context, snapshot) => GestureDetector(
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PostScreen(widget.image, widget.title,
+                    widget.description, widget.date, widget.time))),
+        child: Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                height: 180,
+                child: Image.network(
+                  widget.image,
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
-            SizedBox(height: 5),
-            Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    widget.title,
-                    softWrap: true,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+              SizedBox(height: 5),
+              Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      widget.title,
+                      softWrap: true,
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                InkWell(
-                  onTap: () => favToggle(widget.id),
-                  child: setIcon,
-                )
-              ],
-            )
-          ],
+                  SizedBox(
+                    width: 5,
+                  ),
+                  InkWell(
+                    onTap: () => favToggle(widget.id),
+                    child: setIcon,
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
