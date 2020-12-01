@@ -63,7 +63,10 @@ class _myFavouritesState extends State<myFavourites> {
           centerTitle: true,
           automaticallyImplyLeading: false,
           leading: IconButton(
-            onPressed: () => Navigator.pop(context, true),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context, true);
+            },
             icon: Icon(Icons.home),
           ),
         ),
