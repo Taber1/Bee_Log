@@ -2,10 +2,12 @@ import 'package:bee_log/Screens/PostScreen.dart';
 import 'package:bee_log/Screens/addPost.dart';
 import 'package:bee_log/Screens/drawer.dart';
 import 'package:bee_log/Models/posts.dart';
+import 'package:bee_log/Screens/location.dart';
 import 'package:bee_log/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
 class HomePage extends StatefulWidget {
   String name;
@@ -94,6 +96,11 @@ class _HomePageState extends State<HomePage> {
             },
           )),
       drawer: Draw_Wer(widget.imgUrl, widget.name, widget.email),
+      floatingActionButton: IconButton(
+        onPressed: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LocationPage())),
+        icon: Icon(Icons.location_searching_sharp),
+      ),
     );
   }
 }
