@@ -9,6 +9,10 @@ class _LocationPageState extends State<LocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Location"),
+        centerTitle: true,
+      ),
       body: Center(
         child: Text("location"),
       ),

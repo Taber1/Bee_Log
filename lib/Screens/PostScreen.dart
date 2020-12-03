@@ -89,15 +89,17 @@ class _PostScreenState extends State<PostScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
-                      widget.title,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                    Flexible(
+                      child: Text(
+                        widget.title,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 24),
+                      ),
                     ),
                     SizedBox(
                       width: 10,
                     ),
-                    Text(widget.date + " " + widget.time)
+                    Flexible(child: Text(widget.date + " " + widget.time))
                   ],
                 ),
                 SizedBox(

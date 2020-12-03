@@ -271,7 +271,7 @@ class _eachCardState extends State<eachCard> {
                         width: MediaQuery.of(navigatorKey.currentContext)
                                 .size
                                 .width *
-                            0.65,
+                            0.60,
                         child: Text(
                           widget.description,
                           overflow: TextOverflow.ellipsis,
