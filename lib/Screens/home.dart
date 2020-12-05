@@ -1,6 +1,6 @@
 import 'package:bee_log/Screens/PostScreen.dart';
 import 'package:bee_log/Screens/addPost.dart';
-import 'package:bee_log/Screens/drawer.dart';
+import 'package:bee_log/Screens/Drawer/drawer.dart';
 import 'package:bee_log/Models/posts.dart';
 import 'package:bee_log/Screens/location.dart';
 import 'package:bee_log/main.dart';

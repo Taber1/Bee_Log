@@ -1,12 +1,12 @@
 import 'package:bee_log/Authentications/fbAuth.dart';
 import 'package:bee_log/Authentications/googleAuth.dart';
 import 'package:bee_log/Screens/home.dart';
-import 'package:bee_log/Screens/signup.dart';
+import 'package:bee_log/Screens/Auth/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../Authentications/emailAuthentication.dart';
+import '../../Authentications/emailAuthentication.dart';
 
 class Login extends StatefulWidget {
   @override

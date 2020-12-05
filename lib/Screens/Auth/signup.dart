@@ -1,12 +1,12 @@
 import 'package:bee_log/Screens/home.dart';
-import 'package:bee_log/Screens/login.dart';
+import 'package:bee_log/Screens/Auth/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../Authentications/emailAuthentication.dart';
-import '../main.dart';
+import '../../Authentications/emailAuthentication.dart';
+import '../../main.dart';
 
 class SignUp extends StatefulWidget {
   @override
