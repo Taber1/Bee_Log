@@ -31,25 +31,6 @@ class _PostScreenState extends State<PostScreen> {
     });
   }
 
-  // iconSet(bool fav) {
-  //   fav == false
-  //       ? setIcon = Icon(Icons.favorite_border)
-  //       : setIcon = Icon(Icons.favorite, color: Colors.red);
-  //   DatabaseReference postRef =
-  //       FirebaseDatabase.instance.reference().child("Posts");
-  //   postRef.once().then((DataSnapshot snapshot) {
-  //     var KEYS = snapshot.value.keys;
-  //     var Data = snapshot.value;
-
-  //     for (var individualKey in KEYS) {
-  //       (Data[individualKey]["Fav"] == true)
-  //           ? setIcon = Icon(Icons.favorite_border)
-  //           : setIcon = Icon(Icons.favorite, color: Colors.red);
-  //     }
-  //   });
-  //   return setIcon;
-  // }
-
   @override
   void initState() {
     isFav = widget.fav;
