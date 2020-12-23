@@ -3,9 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:path/path.dart';
-
-import 'PostScreen.dart';
+import 'Posts/PostScreen.dart';
 
 class myFavourites extends StatefulWidget {
   @override

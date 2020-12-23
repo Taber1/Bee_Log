@@ -1,11 +1,12 @@
-import 'package:bee_log/Screens/PostScreen.dart';
-import 'package:bee_log/Screens/addPost.dart';
+import 'package:bee_log/Screens/Posts/addPostScreen.dart';
 import 'package:bee_log/Screens/Drawer/drawer.dart';
 import 'package:bee_log/Models/posts.dart';
 import 'package:bee_log/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+
+import 'Posts/PostScreen.dart';
 
 class HomePage extends StatefulWidget {
   String name;
