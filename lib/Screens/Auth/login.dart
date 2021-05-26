@@ -31,7 +31,7 @@ class _LoginState extends State<Login> {
   }
 
   @override
-  void initState() {
+  void initState() {  
     _authenticator = new Auth(context);
     _gauth = new GoogleAuth(context);
     _fbauth = new FbAuth(context);
